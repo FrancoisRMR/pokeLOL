@@ -1,14 +1,21 @@
-<div class="w-100 px-3">
+<div class="w-100 px-0 px-sm-3">
   <div
     fxLayout="row wrap"
     fxLayout.xs="column"
     fxLayoutAlign="center center"
+    fxLayoutAlign.xs="center"
     fxLayoutGap="3"
+    fxLayoutGap.xs="0"
     class="w-100"
   >
-    <div *ngFor="let champion of champions?.data">
+    <div
+      fxFlex="100px"
+      fxFlex.xs="100"
+      *ngFor="let champion of champions?.data"
+      (click)="redirectToDetailsPage(champion.id)"
+    >
       <img
-        class="champ-tiles"
+        class="w-100"
         [src]="'/assets/img/champion/tiles/' + champion.id + '_0.jpg'"
         alt="{{ champion.id }}"
       />

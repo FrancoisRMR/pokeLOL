@@ -1,0 +1,28 @@
+<div *ngIf="championDetails">
+  <c-carousel class="carousel">
+    <c-carousel-inner>
+      <c-carousel-item *ngFor="let skin of championDetails.data.skins">
+        <img
+          alt="{{ skin.name }}"
+          class="d-block w-100"
+          loading="lazy"
+          [src]="
+            '/assets/img/champion/loading/' +
+            championDetails.data.id +
+            '_' +
+            skin.num +
+            '.jpg'
+          "
+        />
+        <c-carousel-caption>
+          <p class="m-0">{{ skin.name }}</p>
+        </c-carousel-caption>
+      </c-carousel-item>
+    </c-carousel-inner>
+    <c-carousel-control
+      caption="Previous"
+      direction="prev"
+    ></c-carousel-control>
+    <c-carousel-control caption="Next" direction="next"></c-carousel-control>
+  </c-carousel>
+</div>
