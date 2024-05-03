@@ -94,13 +94,11 @@
     class="nav-champ px-sm-3"
   >
     <a
-      *ngIf="prevAndNextChamp.previous"
       (click)="carouselShouldBeDisplayed = false"
       [routerLink]="['', prevAndNextChamp.previous]"
       >{{ prevAndNextChamp.previous }}</a
     >
     <a
-      *ngIf="prevAndNextChamp.next"
       (click)="carouselShouldBeDisplayed = false"
       [routerLink]="['', prevAndNextChamp.next]"
       >{{ prevAndNextChamp.next }}</a
