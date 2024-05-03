@@ -6,13 +6,15 @@
     fxLayoutAlign="center"
     fxLayoutAlign.xs="center"
     fxFlex="100"
-    class="px-0 px-sm-3 my-3"
+    class="px-0 px-sm-3 my-3 px-md-5 mx-md-5"
   >
     <c-carousel
       *ngIf="carouselShouldBeDisplayed"
       class="carousel"
-      fxFlex="20"
       fxFlex.xs="100"
+      fxFlex.sm="300px"
+      fxFlex.md="300px"
+      fxFlex="300px"
     >
       <c-carousel-inner>
         <c-carousel-item *ngFor="let skin of championDetails.data.skins">
@@ -40,7 +42,7 @@
       <c-carousel-control caption="Next" direction="next"></c-carousel-control>
     </c-carousel>
 
-    <div fxLayout="column" fxFlex class="px-3 px-sm-4 info py-4">
+    <div fxLayout="column" class="px-3 px-sm-4 info py-4">
       <h1>{{ championDetails.data.name }}</h1>
       <h4>{{ championDetails.data.title }}</h4>
       <p class="m-0">{{ championDetails.data.lore }}</p>
@@ -91,17 +93,21 @@
     *ngIf="prevAndNextChamp"
     fxLayout="row"
     fxLayoutAlign="space-between center"
-    class="nav-champ px-sm-3"
+    class="nav-champ px-sm-3 px-md-5 mx-md-5"
   >
     <a
       (click)="carouselShouldBeDisplayed = false"
       [routerLink]="['', prevAndNextChamp.previous]"
-      >{{ prevAndNextChamp.previous }}</a
+    >
+      <span *ngIf="prevAndNextChamp.previous"><</span>
+      {{ prevAndNextChamp.previous }}</a
     >
     <a
       (click)="carouselShouldBeDisplayed = false"
       [routerLink]="['', prevAndNextChamp.next]"
-      >{{ prevAndNextChamp.next }}</a
     >
+      {{ prevAndNextChamp.next }}
+      <span *ngIf="prevAndNextChamp.next">></span>
+    </a>
   </div>
 </div>

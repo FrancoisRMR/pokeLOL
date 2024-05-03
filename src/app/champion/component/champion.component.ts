@@ -17,6 +17,8 @@ import { ChampionService } from '../service/champion.service';
 })
 export class ChampionComponent implements OnDestroy {
   champions!: ChampionData;
+  tags!: string[];
+  selectedTags: string[] = [];
   subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -33,36 +35,69 @@ export class ChampionComponent implements OnDestroy {
       this.championService.getChampions().subscribe({
         next: (championData: ChampionData) => {
           this.champions = championData;
+          this.tags = this.championService.getAllTags(championData.data);
         },
       })
     );
   }
 
   initSearchValueSubscription() {
-    this.searchBarService.searchValue$.subscribe({
-      next: (value: string | null) => {
-        if (this.championService.champions) {
-          if (value) {
-            this.champions = {
-              ...this.champions,
-              data: this.championService.champions.data.filter(
-                (champion: Champion) => {
-                  return champion.id
-                    .toLowerCase()
-                    .startsWith(value.toLowerCase());
-                }
-              ),
-            };
-          } else {
-            this.champions = this.championService.champions;
+    this.subscriptions.add(
+      this.searchBarService.searchValue$.subscribe({
+        next: (value: string | null) => {
+          if (this.championService.champions) {
+            if (value) {
+              this.champions = {
+                ...this.champions,
+                data: this.championService.champions.data.filter(
+                  (champion: Champion) => {
+                    return champion.id
+                      .toLowerCase()
+                      .startsWith(value.toLowerCase());
+                  }
+                ),
+              };
+            } else {
+              this.champions = this.championService.champions;
+            }
           }
-        }
-      },
-    });
+        },
+      })
+    );
   }
 
   redirectToDetailsPage(id: string): void {
     this.router.navigate([id]);
+  }
+
+  selectOrUnselectTag(tag: string) {
+    if (this.selectedTags.includes(tag)) {
+      this.selectedTags = this.selectedTags.filter(
+        (selectedTag: string) => selectedTag !== tag
+      );
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.updateObjectsWithTags();
+  }
+
+  updateObjectsWithTags() {
+    if (this.championService.champions) {
+      if (this.selectedTags.length) {
+        this.champions = {
+          ...this.champions,
+          data: this.championService.champions.data.filter(
+            (champion: Champion) => {
+              return this.selectedTags.every((filter) =>
+                champion.tags.includes(filter)
+              );
+            }
+          ),
+        };
+      } else {
+        this.champions = this.championService.champions;
+      }
+    }
   }
 
   ngOnDestroy(): void {

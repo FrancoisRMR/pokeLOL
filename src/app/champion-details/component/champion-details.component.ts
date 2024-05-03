@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  ParamMap,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import {
   CarouselCaptionComponent,
   CarouselComponent,
@@ -56,27 +61,30 @@ export class ChampionDetailsComponent implements OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private championDetailsService: ChampionDetailsService,
-    private championService: ChampionService
+    private championService: ChampionService,
+    private router: Router
   ) {
-    this.route.paramMap.subscribe({
-      next: (params: ParamMap) => {
-        const id: string | null = params.get('id');
-        if (id) {
-          console.log('id => ', id);
-          this.getChampionDetail(id);
-          console.log('params => ', params);
-          if (this.championService.champions) {
-            this.getPrevAndNextChamp(this.championService.champions.data, id);
-          } else {
-            this.championService.getChampions().subscribe({
-              next: (championData: ChampionData) => {
-                this.getPrevAndNextChamp(championData.data, id);
-              },
-            });
+    this.subscriptions.add(
+      this.route.paramMap.subscribe({
+        next: (params: ParamMap) => {
+          const id: string | null = params.get('id');
+          if (id) {
+            this.getChampionDetail(id);
+            if (this.championService.champions) {
+              this.getPrevAndNextChamp(this.championService.champions.data, id);
+            } else {
+              this.subscriptions.add(
+                this.championService.getChampions().subscribe({
+                  next: (championData: ChampionData) => {
+                    this.getPrevAndNextChamp(championData.data, id);
+                  },
+                })
+              );
+            }
           }
-        }
-      },
-    });
+        },
+      })
+    );
   }
 
   getPrevAndNextChamp(champions: Champion[], currentChampId: string) {
@@ -92,17 +100,18 @@ export class ChampionDetailsComponent implements OnDestroy {
         };
       }
     });
-    console.log('this.prevAndNextChamp => ', this.prevAndNextChamp);
   }
 
   getChampionDetail(id: string) {
     this.subscriptions.add(
       this.championDetailsService.getChampionDetails(id).subscribe({
         next: (championData: ChampionDataDetails) => {
-          console.log('championDetails => ', championData);
           this.championDetails = championData;
           this.clickOnSpell(this.championDetails.data.spells[0]);
           this.carouselShouldBeDisplayed = true;
+        },
+        error: () => {
+          this.router.navigate(['/']);
         },
       })
     );

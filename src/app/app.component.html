@@ -1,12 +1,12 @@
 <div fxLayout="column" class="pt-2 pb-5">
-  <div
-    fxFlex="100"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    class="pointer"
-    (click)="redirectTo()"
-  >
-    <img fxFlex="250px" src="../assets/img/pokelol.png" alt="pokeLOL" />
+  <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+    <img
+      (click)="redirectTo()"
+      class="pointer"
+      fxFlex="250px"
+      src="../assets/img/pokelol.png"
+      alt="pokeLOL"
+    />
   </div>
 
   <router-outlet />

@@ -1,13 +1,34 @@
-<div class="w-100 px-0 px-sm-3">
+<div fxLayout="column" class="w-100 px-0 px-sm-3">
   <app-search-bar></app-search-bar>
   <div
+    fxLayout="row"
+    fxLayoutAlign="center"
+    fxLayoutGap="10"
+    class="pointer tag pb-3 w-100"
+  >
+    <div
+      fxFlex="40px"
+      fxFlex.xs="100"
+      *ngFor="let tag of tags"
+      (click)="selectOrUnselectTag(tag)"
+    >
+      <img
+        class="w-100"
+        [ngClass]="{ 'selected-tag': selectedTags.includes(tag) }"
+        [src]="'/assets/img/tags/' + tag + '.png'"
+        alt="{{ tag }}"
+      />
+    </div>
+  </div>
+
+  <div
+    class="champs w-100"
     fxLayout="row wrap"
     fxLayout.xs="column"
     fxLayoutAlign="center center"
     fxLayoutAlign.xs="center"
     fxLayoutGap="3"
     fxLayoutGap.xs="0"
-    class="w-100"
   >
     <div
       fxFlex="100px"

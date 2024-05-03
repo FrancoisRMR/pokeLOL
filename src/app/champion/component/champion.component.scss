@@ -1,3 +1,20 @@
 .champ-tiles {
   width: 100px;
 }
+.champs {
+  img:hover {
+    border: 2px solid #000;
+    padding: 2px;
+  }
+}
+.tag {
+  img {
+    width: 30px;
+  }
+  img:hover {
+    padding: 6px;
+  }
+}
+.selected-tag {
+  padding: 6px;
+}

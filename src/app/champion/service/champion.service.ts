@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ChampionData, ChampionDataRaw } from '../interface/champion.interface';
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import {
+  Champion,
+  ChampionData,
+  ChampionDataRaw,
+} from '../interface/champion.interface';
 
 interface ChampionStore {
   champions: ChampionData | null;
@@ -29,10 +33,23 @@ export class ChampionService {
 
         this.store.champions = championData;
         this.store.champions$.next(championData);
-
         return championData;
       })
     );
+  }
+
+  getAllTags(champions: Champion[]): string[] {
+    let uniqueTags: string[] = [];
+    champions
+      .map((champion: Champion) => champion.tags)
+      .flatMap((tags: string[]) => tags)
+      .forEach((tag: string) => {
+        if (!uniqueTags.includes(tag)) {
+          uniqueTags.push(tag);
+        }
+      });
+
+    return uniqueTags;
   }
 
   get champions(): ChampionData | null {
