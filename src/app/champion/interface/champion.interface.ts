@@ -3,7 +3,7 @@ export interface ChampionDataRaw extends ChampionDataBase {
 }
 
 export interface ChampionData extends ChampionDataBase {
-  data: Champion[];
+  data: Champion[] | [];
 }
 
 interface ChampionDataBase {

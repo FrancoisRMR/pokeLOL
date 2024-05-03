@@ -1,5 +1,13 @@
-<div *ngIf="championDetails">
-  <c-carousel class="carousel">
+<div
+  *ngIf="championDetails"
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayoutAlign="center center"
+  fxLayoutAlign.xs="center"
+  fxFlex="100"
+  class="px-0 px-sm-3"
+>
+  <c-carousel class="carousel" fxFlex="25" fxFlex.xs="100">
     <c-carousel-inner>
       <c-carousel-item *ngFor="let skin of championDetails.data.skins">
         <img
@@ -14,7 +22,7 @@
             '.jpg'
           "
         />
-        <c-carousel-caption>
+        <c-carousel-caption class="p-0">
           <p class="m-0">{{ skin.name }}</p>
         </c-carousel-caption>
       </c-carousel-item>
@@ -25,4 +33,15 @@
     ></c-carousel-control>
     <c-carousel-control caption="Next" direction="next"></c-carousel-control>
   </c-carousel>
+
+  <div
+    fxLayout="column"
+    fxFlex
+    class="px-3 px-sm-5 h-100"
+    fxLayoutAlign="center start"
+  >
+    <h1>{{ championDetails.data.name }}</h1>
+    <h4>{{ championDetails.data.title }}</h4>
+    <p>{{ championDetails.data.lore }}</p>
+  </div>
 </div>

@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { ChampionDataDetails } from '../interface/champion-details.interface';
 import { ChampionDetailsService } from '../service/champion-details.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-champion-details',
@@ -26,6 +27,7 @@ import { ChampionDetailsService } from '../service/champion-details.service';
     CarouselItemComponent,
     CarouselCaptionComponent,
     CarouselControlComponent,
+    FlexLayoutModule,
   ],
   templateUrl: './champion-details.component.html',
   styleUrl: './champion-details.component.scss',

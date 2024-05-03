@@ -1,10 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ChampionService } from '../service/champion.service';
 import { CommonModule } from '@angular/common';
-import { ChampionData } from '../interface/champion.interface';
+import { Champion, ChampionData } from '../interface/champion.interface';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SearchBarService } from '../../search-bar/service/search-bar.service';
 
 @Component({
   selector: 'app-champion',
@@ -19,9 +20,11 @@ export class ChampionComponent implements OnDestroy {
 
   constructor(
     private championService: ChampionService,
-    private router: Router
+    private router: Router,
+    private searchBarService: SearchBarService
   ) {
     this.getChampions();
+    this.initSearchValueSubscription();
   }
 
   getChampions() {
@@ -32,6 +35,29 @@ export class ChampionComponent implements OnDestroy {
         },
       })
     );
+  }
+
+  initSearchValueSubscription() {
+    this.searchBarService.searchValue$.subscribe({
+      next: (value: string | null) => {
+        if (this.championService.champions) {
+          if (value) {
+            this.champions = {
+              ...this.champions,
+              data: this.championService.champions.data.filter(
+                (champion: Champion) => {
+                  return champion.id
+                    .toLowerCase()
+                    .startsWith(value.toLowerCase());
+                }
+              ),
+            };
+          } else {
+            this.champions = this.championService.champions;
+          }
+        }
+      },
+    });
   }
 
   redirectToDetailsPage(id: string): void {
