@@ -1,16 +1,17 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ChampionService } from '../service/champion.service';
 import { CommonModule } from '@angular/common';
-import { Champion, ChampionData } from '../interface/champion.interface';
+import { Component, OnDestroy } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SearchBarComponent } from '../../search-bar/component/search-bar.component';
 import { SearchBarService } from '../../search-bar/service/search-bar.service';
+import { Champion, ChampionData } from '../interface/champion.interface';
+import { ChampionService } from '../service/champion.service';
 
 @Component({
   selector: 'app-champion',
   standalone: true,
-  imports: [CommonModule, FlexLayoutModule],
+  imports: [CommonModule, FlexLayoutModule, SearchBarComponent],
   templateUrl: './champion.component.html',
   styleUrl: './champion.component.scss',
 })

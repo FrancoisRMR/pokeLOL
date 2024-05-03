@@ -1,7 +1,26 @@
-:host {
-  height: 100vh;
-}
-
 .carousel {
   max-width: 100%;
+}
+.info {
+  background-color: #ffffff;
+}
+.spell {
+  width: 100px;
+}
+.image-border {
+  border: 2px solid #000;
+  padding: 2px;
+}
+.border-none {
+  border: none;
+}
+.passive {
+  width: 75px;
+}
+.nav-champ {
+  // p {
+  //   color: #ffffff;
+  //   text-decoration: underline;
+  //   cursor: pointer;
+  // }
 }

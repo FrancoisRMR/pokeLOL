@@ -40,16 +40,13 @@ $pokeLOL-theme: mat.define-light-theme(
 
 html,
 body {
-  height: 100%;
-}
-body {
+  height: 100vh;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-body {
-  padding-bottom: 500px;
-  background-image: url("assets/img/pngfind.com-lol-png-2871494.png");
-  background-position: bottom;
-  background-attachment: fixed;
+  background: linear-gradient(#0957a5, #081832);
+  background-color: #081832;
   background-repeat: no-repeat;
+}
+.pointer {
+  cursor: pointer;
 }

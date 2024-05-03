@@ -1,47 +1,109 @@
-<div
-  *ngIf="championDetails"
-  fxLayout="row"
-  fxLayout.xs="column"
-  fxLayoutAlign="center center"
-  fxLayoutAlign.xs="center"
-  fxFlex="100"
-  class="px-0 px-sm-3"
->
-  <c-carousel class="carousel" fxFlex="25" fxFlex.xs="100">
-    <c-carousel-inner>
-      <c-carousel-item *ngFor="let skin of championDetails.data.skins">
-        <img
-          alt="{{ skin.name }}"
-          class="d-block w-100"
-          loading="lazy"
-          [src]="
-            '/assets/img/champion/loading/' +
-            championDetails.data.id +
-            '_' +
-            skin.num +
-            '.jpg'
-          "
-        />
-        <c-carousel-caption class="p-0">
-          <p class="m-0">{{ skin.name }}</p>
-        </c-carousel-caption>
-      </c-carousel-item>
-    </c-carousel-inner>
-    <c-carousel-control
-      caption="Previous"
-      direction="prev"
-    ></c-carousel-control>
-    <c-carousel-control caption="Next" direction="next"></c-carousel-control>
-  </c-carousel>
-
+<div fxLayout="column">
   <div
-    fxLayout="column"
-    fxFlex
-    class="px-3 px-sm-5 h-100"
-    fxLayoutAlign="center start"
+    *ngIf="championDetails"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center"
+    fxLayoutAlign.xs="center"
+    fxFlex="100"
+    class="px-0 px-sm-3 my-3"
   >
-    <h1>{{ championDetails.data.name }}</h1>
-    <h4>{{ championDetails.data.title }}</h4>
-    <p>{{ championDetails.data.lore }}</p>
+    <c-carousel
+      *ngIf="carouselShouldBeDisplayed"
+      class="carousel"
+      fxFlex="20"
+      fxFlex.xs="100"
+    >
+      <c-carousel-inner>
+        <c-carousel-item *ngFor="let skin of championDetails.data.skins">
+          <img
+            alt="{{ skin.name }}"
+            class="d-block w-100"
+            loading="lazy"
+            [src]="
+              '/assets/img/champion/loading/' +
+              championDetails.data.id +
+              '_' +
+              skin.num +
+              '.jpg'
+            "
+          />
+          <c-carousel-caption class="p-0">
+            <p class="m-0">{{ skin.name }}</p>
+          </c-carousel-caption>
+        </c-carousel-item>
+      </c-carousel-inner>
+      <c-carousel-control
+        caption="Previous"
+        direction="prev"
+      ></c-carousel-control>
+      <c-carousel-control caption="Next" direction="next"></c-carousel-control>
+    </c-carousel>
+
+    <div fxLayout="column" fxFlex class="px-3 px-sm-4 info py-4">
+      <h1>{{ championDetails.data.name }}</h1>
+      <h4>{{ championDetails.data.title }}</h4>
+      <p class="m-0">{{ championDetails.data.lore }}</p>
+      <hr />
+
+      <!-- SPELLS -->
+      <div fxLayout="row" fxLayoutGap="3">
+        <div
+          *ngFor="let spell of championDetails.data.spells"
+          class="pointer"
+          [ngClass]="{
+            'image-border': selectedSpell?.id === spell.id,
+            'border-none': selectedSpell?.id !== spell.id
+          }"
+          (click)="clickOnSpell(spell)"
+        >
+          <img
+            class="spell"
+            [src]="'/assets/img/spell/' + spell.id + '.png'"
+            alt="{{ spell.id }}"
+          />
+        </div>
+
+        <div class="pointer" (click)="clickOnPassive()">
+          <img
+            class="passive"
+            [ngClass]="{
+              'image-border': selectedPassive,
+              'border-none': !selectedPassive
+            }"
+            [src]="
+              '/assets/img/passive/' + championDetails.data.passive.image.full
+            "
+            alt="{{ championDetails.data.passive.image.full }}"
+          />
+        </div>
+      </div>
+      <!-- SPELL DESC -->
+      <div fxLayout="column" class="mt-2">
+        <h5 *ngIf="selectedSpell">{{ selectedSpell.name }}</h5>
+        <p *ngIf="selectedSpell">{{ selectedSpell.description }}</p>
+        <h5 *ngIf="selectedPassive">{{ selectedPassive.name }}</h5>
+        <p *ngIf="selectedPassive">{{ selectedPassive.description }}</p>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="prevAndNextChamp"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    class="nav-champ px-sm-3"
+  >
+    <a
+      *ngIf="prevAndNextChamp.previous"
+      (click)="carouselShouldBeDisplayed = false"
+      [routerLink]="['', prevAndNextChamp.previous]"
+      >{{ prevAndNextChamp.previous }}</a
+    >
+    <a
+      *ngIf="prevAndNextChamp.next"
+      (click)="carouselShouldBeDisplayed = false"
+      [routerLink]="['', prevAndNextChamp.next]"
+      >{{ prevAndNextChamp.next }}</a
+    >
   </div>
 </div>
